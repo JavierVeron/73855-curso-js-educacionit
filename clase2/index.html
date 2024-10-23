@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clase 2 - Educación IT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <!-- <h1>Eventos</h1>
+                <p><button class="btn btn-primary" onclick="hacerClick();">Hacer Click!</button></p>
+                <p><input type="text" class="form-control" id="campoTexto" onkeydown="presionarBoton()" onkeyup="capturarTexto()"></p>
+                <p><input type="text" class="form-control" oninput="capturarTextoConEvent(event)" onchange="validarCampo(event)"></p>
+                <div id="contenido"></div>
+                <p>
+                    <select onchange="elegirMoneda(event)">
+                        <option value="">Seleccione una Moneda</option>
+                        <option value="pesos">Pesos</option>
+                        <option value="dolares">Dólares</option>
+                    </select>
+                </p>
+                <p>Seleccione un Idioma</p>
+                <p>
+                    <input type="radio" name="idioma" id="idiomaES" onclick="asignarIdioma2(event)"><label for="idiomaES">Español</label>
+                    <input type="radio" name="idioma" id="idiomaEN" onclick="asignarIdioma2(event)"><label for="idiomaEN">Inglés</label>
+                </p>
+                <p><button class="btn btn-primary x-1" onclick="asignarIdioma();">Asignar Idioma</button> <button class="btn btn-primary x-1" id="boton">Mostrar Mensaje</button></p> -->
+
+                <!-- <h1>API EventTarget</h1>
+                <p><input type="text" class="form-control" id="nombreIngresado"></p>
+                <p><button id="boton" class="btn btn-primary">Hacer Click</button></p> -->
+
+                <h1>Formularios</h1>
+                <!-- <form id="form1" method="post" action="www.google.com.ar">
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="text" class="form-control" id="email">
+                      <div id="emailError" class="form-text"></div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                      <input type="password" class="form-control" id="clave">
+                      <div id="claveError" class="form-text"></div>
+                    </div>
+                    <button type="submit" id="btnForm" class="btn btn-primary">Enviar</button>
+                </form> -->
+                
+                <form id="validation">
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="nombre" required>
+                      <div id="nombreError" class="form-text"></div>
+                    </div>
+                    <button id="btnForm" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

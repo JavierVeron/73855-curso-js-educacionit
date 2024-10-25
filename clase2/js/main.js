@@ -179,7 +179,7 @@ document.getElementById("boton").addEventListener("click", () => {
 
 
 // Check Validity
-const validator = document.querySelector("#validation");
+/* const validator = document.querySelector("#validation");
 validator.addEventListener("submit", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -191,7 +191,52 @@ validator.addEventListener("submit", (event) => {
     if (nombre.value.length < 3) {
         nombre.setCustomValidity("Ingrese un nombre con al menos 3 letras!");
     }
-})
+}) */
+
+
+// Expresiones Regulares
+//let texto = "z";
+
+/* for (let i=0; i<texto.length; i++) {
+    console.log(texto[i]);  
+} */
+
+/* console.log(texto.charAt(0)); // a es 97
+console.log(texto[0]); // es equivalente a la línea de arriba
+console.log(texto.charCodeAt(0)); // devuelve el numero unicode de la letra h
+
+const validarLetra = (letra) => {
+    let codigo = letra.charCodeAt(0);
+    console.log(codigo);
+    
+
+    if (codigo < 97 || codigo > 122) {
+        alert("Letra inválida!")
+    }
+}
+
+validarLetra("casa"); */
+
+//const expresion = /ab+c/; // Mi expresión regular definida (mi regla)
+//const expresion = /[ab]+c/; // Mi expresión regular definida (mi regla) [ab] a o b y todas sus combinaciones
+const expresion = /^[a-z]+@[a-z]$/; // Mi expresión regular definida (mi regla) [ab] a o b y todas sus combinaciones
+let texto = "info@educacion";
+console.log(expresion.test(texto));
+
+const validarEmail = () => {
+    let email = document.getElementById("nombre").value;
+    const expresionRegular = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i
+
+    if (expresionRegular.test(email)) {
+        document.getElementById("nombreError").innerHTML = "El email es correcto!"
+    } else {
+        document.getElementById("nombreError").innerHTML = "Error! El email NO es correcto!"
+    }
+}
+
+document.getElementById("btnForm").addEventListener("click", validarEmail)
+
+
 
 
 

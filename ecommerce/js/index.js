@@ -1,8 +1,11 @@
 const renderProductos = () => {
     const productos = cargarProductos();
+    let parametros = new URLSearchParams(location.search);
+    let categoria = parametros.get("categoria");
+    const productosFiltro = categoria ? productos.filter(item => item.categoria == categoria) : productos;
     let contenidoHTML = "";
 
-    productos.forEach(item => {
+    productosFiltro.forEach(item => {
         contenidoHTML += `<div class="col-md-2">
         <a href="${"producto.html?id=" + item.id}" class="text-decoration-none text-dark">
             <div class="card border-0 mb-3 text-center">

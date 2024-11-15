@@ -5,7 +5,7 @@ const renderCarrito = () => {
     if (totalCarrito() > 0) {
         contenidoHTML = `<table class="table">
         <tr>
-        <td colspan="4" class="text-end"><button class="btn btn-warning btn-sm" onclick="vaciarCarrito();">Vaciar Carrito [x]</button></td>
+        <td colspan="6" class="text-end"><button class="btn btn-warning btn-sm" onclick="vaciarCarrito();">Vaciar Carrito [x]</button></td>
         </tr>`;
 
         carrito.forEach(item => {
@@ -13,13 +13,15 @@ const renderCarrito = () => {
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
             <td class="text-start align-middle">$${item.precio}</td>
+            <td class="text-start align-middle">X${item.cantidad}</td>
+            <td class="text-start align-middle">$${item.cantidad * item.precio}</td>
             <td class="text-end align-middle"><button class="btn btn-warning btn-sm" onclick="eliminarProducto(${item.id});"><i class="bi bi-trash"></i></button></td>
             </tr>`;
         });
 
         contenidoHTML += `<tr>
         <td>&nbsp;</td>
-        <td>Total a Pagar</td>
+        <td colspan="3">Total a Pagar</td>
         <td>$${sumaCarrito()}</td>
         <td class="text-end"><button class="btn btn-warning btn-sm" onclick="finalizarCompra();">Finalizar Compra</button></td>
         </tr>

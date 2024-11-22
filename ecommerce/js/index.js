@@ -1,8 +1,9 @@
-const renderProductos = () => {
-    const productos = cargarProductos();
+const renderProductos = async () => {
+    const productos = await cargarProductos();
     let parametros = new URLSearchParams(location.search);
     let categoria = parametros.get("categoria");
     const productosFiltro = categoria ? productos.filter(item => item.categoria == categoria) : productos;
+    
     let contenidoHTML = "";
 
     productosFiltro.forEach(item => {
@@ -19,7 +20,9 @@ const renderProductos = () => {
     });
 
     document.getElementById("contenido").innerHTML = contenidoHTML;
+    generarIdUsuario();
 }
 
 renderProductos();
+renderBotonFavoritos();
 renderBotonCarrito();

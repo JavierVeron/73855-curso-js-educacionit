@@ -1,86 +1,204 @@
-const productos = [
-    {id:1, nombre:"Doble Cuarto de Libra con Queso", calorias:771, descripcion:"Imaginá la sensación del clásico Cuarto de Libra. Imaginalo con un medallón de deliciosa carne 100% vacuna, queso cheddar, cebolla, kétchup y mostaza ¿Listo? Ahora duplicá esa sensación. Ya tenés el Doble Cuarto en la cabeza.", imagen:"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXt7Sq2/200/200/original?country=ar", precio:15000, categoria:"hamburguesas"},
-    {id:2, nombre:"Big Mac", calorias:505, descripcion:"Quizás sean las dos hamburguesas de carne 100% vacuna con esa salsa especial y queso derretido, el toque de cebolla y la frescura de la lechuga o el crocante del pepino, lo que la hace la hamburguesa más famosa del mundo. Un sabor único.", "imagen":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqX3vl0y/200/200/original?country=ar", precio:14000, categoria:"hamburguesas"},
-    {id:3, nombre:"McNífica", calorias:513, descripcion:"En un mundo donde todos buscan lo nuevo todo el tiempo, la McNífica viene a rectificar lo bueno de ser clásico. Carne, queso cheddar, tomate, lechuga y cebolla, acompañados de kétchup, mostaza y mayonesa.", "imagen":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXXaUUP/200/200/original?country=ar", precio:13000, categoria:"hamburguesas"},
-    {id:4, nombre:"McNuggets 6 unidades", calorias:238, descripcion:"Seis piezas del mejor pollo rebozado sólo para vos. Comelas como quieras: con salsas o solas; todas son igual de deliciosas!", imagen:"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXp9cg0/200/200/original?country=ar", precio:9000, categoria:"pollo"},
-    {id:5, nombre:"Papas Grandes", calorias:339, descripcion:"Calientes, crujientes y deliciosas, tus aliadas perfectas para cualquier comida. Disfrutá de nuestras papas mundialmente famosas, desde la primera hasta la última.", imagen:"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXXQgnB/200/200/original?country=ar", precio:5000, categoria:"papas"},
-    {id:6, nombre:"McFlurry Oreo", calorias:424, descripcion:"Un helado de vainilla que se banca compartir el protagonismo con trocitos de deliciosas galletitas Oreo y la salsa que elijas. Amalo hasta el final.", imagen:"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX83hlT/200/200/original?country=ar", precio:4000, categoria:"postres"}
-]
-
-/* const cargarProductos = async () => {
-    fetch("json/productos.json")
-    .then(response => response.json())
-    .then(data => {
-        return data;
-    })
-} */
-
-const cargarProductos = () => {
-    return productos;
+const obtenerUserId = () => {
+    return JSON.parse(localStorage.getItem("userId")) || null;
 }
 
-const cargarCarrito = () => {
-    return JSON.parse(localStorage.getItem("carrito")) || [];
+const generarIdUsuario = () => {
+    if (!obtenerUserId()) {
+        const userId = Date.now();
+        localStorage.setItem("userId", JSON.stringify(userId));
+        fetch("http://localhost:3000/carrito", {
+            method: "POST",
+            body: JSON.stringify({userId:userId, carrito:[]}),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+    }
 }
 
-const guardarCarrito = (carrito) => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-const estaEnElCarrito = (id) => {
-    const carrito = cargarCarrito();
-
-    return carrito.some(item => item.id == id);
-}
-
-const agregarProducto = (id) => {
-    const productos = cargarProductos();
-    const carrito = cargarCarrito();
-    let producto = "";
+const cargarProductos = async () => {
+    const response = await fetch("http://localhost:3000/productos")
+    const data = await response.json();
     
-    if (estaEnElCarrito(id)) {
-        producto = carrito.find(item => item.id == id);        
+    return new Promise((resolve) => {
+        resolve(data);
+    })
+}
+
+const cargarCarrito = async () => {
+    const userId = obtenerUserId();
+    const response = await fetch("http://localhost:3000/carrito/?userId=" + userId)
+    const data = await response.json();
+    
+    return new Promise((resolve) => {        
+        resolve(data);
+    })
+}
+
+const cargarFavoritos = async () => {
+    const response = await fetch("http://localhost:3000/favoritos")
+    const data = await response.json();
+    
+    return new Promise((resolve) => {
+        resolve(data);
+    })
+}
+
+const actualizarCarrito = async(carrito) => {
+    const userId = obtenerUserId();
+    await fetch("http://localhost:3000/carrito/?userId=" + userId, {
+        method: "PUT",
+        body: JSON.stringify({productos:carrito}),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+}
+
+const guardarCarrito = async(producto) => {
+    const userId = obtenerUserId();
+    await fetch("http://localhost:3000/carrito", {
+        method: "POST",
+        body: JSON.stringify({userId:userId, producto:producto}),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+}
+
+const guardarFavorito = async(producto) => {
+    await fetch("http://localhost:3000/favoritos", {
+        method: "POST",
+        body: JSON.stringify(producto),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+}
+
+const eliminarFavorito = async(id) => {
+    await fetch("http://localhost:3000/favoritos/" + id, {
+        method: "DELETE"
+    });
+}
+
+const estaEnElCarrito = async (id) => {
+    const carrito = await cargarCarrito();
+
+    return new Promise((resolve) => {
+        resolve(carrito.carrito.some(item => item.id == id));
+    })
+}
+
+const estaEnElFavorito = async (id) => {
+    const carrito = await cargarFavoritos();
+
+    return new Promise((resolve) => {
+        resolve(carrito.some(item => item.id == id));
+    })
+}
+
+const agregarProducto = async (id) => {
+    let producto = "";
+    const carrito = await cargarCarrito(userId);
+    
+    if (await estaEnElCarrito(id)) {
+        producto = carrito.carrito.find(item => item.id == id);        
         producto.cantidad += 1;
-    } else {
+    } else {        
+        const productos = await cargarProductos();
         producto = productos.find(item => item.id == id);
         producto.cantidad = 1;
-        carrito.push(producto);
+        carrito.carrito.push(producto);
     }
 
-    guardarCarrito(carrito);
-    renderBotonCarrito();
+    await actualizarCarrito(carrito);
+    await renderBotonCarrito();
     mostrarMensaje("Agregaste " + producto.nombre + " al Carrito!", "ok");
 }
 
-const totalCarrito = () => {
-    const carrito = cargarCarrito();
+const decrementarItem = async (id) => {
+    const carrito = await cargarCarrito();
+    producto = carrito.find(item => item.id == id);
     
-    return carrito.reduce((acum, item) => acum += item.cantidad, 0);
+    if (producto.cantidad > 1) {
+        producto.cantidad -= 1;
+        await actualizarCarrito(id, producto);
+    } else {
+        await eliminarProducto(id);
+    }
+
+    await renderBotonCarrito();
+    await renderCarrito();
 }
 
-const sumaCarrito = () => {
-    const carrito = cargarCarrito();
-    
-    return carrito.reduce((acum, item) => acum += item.cantidad * item.precio, 0);
+const incrementarItem = async (id) => {
+    const carrito = await cargarCarrito();
+    producto = carrito.find(item => item.id == id);        
+    producto.cantidad += 1;
+    await actualizarCarrito(id, producto);
+    await renderBotonCarrito();
+    await renderCarrito();
 }
 
-const vaciarCarrito = () => {
-    localStorage.removeItem("carrito");
-    renderBotonCarrito();
-    renderCarrito();
+const toggleFavorito = async (id) => {        
+    if (await estaEnElFavorito(id)) {
+        await eliminarFavorito(id);
+    } else {
+        const productos = await cargarProductos();
+        const producto = productos.find(item => item.id == id);
+        await guardarFavorito(producto);
+    }
+
+    await renderBotonFavoritos();
+}
+
+const totalCarrito = async () => {
+    const carrito = await cargarCarrito();   
+    
+    return new Promise((resolve) => {
+        resolve(carrito.reduce((acum, item) => acum += item.cantidad, 0));
+    })
+}
+
+const totalFavoritos = async () => {
+    const favoritos = await cargarFavoritos();   
+    
+    return new Promise((resolve) => {
+        resolve(favoritos.length);
+    })
+}
+
+const sumaCarrito = async () => {
+    const carrito = await cargarCarrito();
+    
+    return new Promise((resolve) => {
+        resolve(carrito.reduce((acum, item) => acum += item.cantidad * item.precio, 0));
+    })
+}
+
+const vaciarCarrito = async () => {
+    const carrito = await cargarCarrito();
+
+    carrito.forEach(item => {
+        fetch("http://localhost:3000/carrito/" + item.id, {
+            method: "DELETE"
+        });
+    })
+    
+    await renderBotonCarrito();
+    await renderCarrito();
     mostrarMensaje("Se vació el Carrito!", "ok");
 }
 
-const renderBotonCarrito = () => {
-    document.getElementById("totalCarrito").innerHTML = totalCarrito();
+const renderBotonCarrito = async () => {
+    document.getElementById("totalCarrito").innerHTML = await totalCarrito();
 }
 
-const eliminarProducto = (id) => {
-    const carrito = cargarCarrito();
-    const carritoActualizado = carrito.filter(item => item.id != id);
-    guardarCarrito(carritoActualizado);
-    renderBotonCarrito();
-    renderCarrito();
+const renderBotonFavoritos = async () => {
+    document.getElementById("totalFavoritos").innerHTML = await totalFavoritos();
+}
+
+const eliminarProducto = async (id) => {
+    await fetch("http://localhost:3000/carrito/" + id, {
+        method: "DELETE"
+    });
+
+    await renderBotonFavoritos();
+    await renderBotonCarrito();
+    await renderCarrito();
     mostrarMensaje("El producto #" + id + " se eliminó correctamente!", "ok");
 }
 
@@ -94,17 +212,19 @@ const mostrarMensaje = (mensaje, tipo = "ok") => {
     });
 }
 
-const finalizarCompra = () => {
-    const carrito = cargarCarrito();
+const detalleCompra = async (orden) => {
+    const carrito = orden.productos;
     let mensaje = "Detalle de la Compra:\n\n";
 
     carrito.forEach(item => {
         mensaje += `${item.nombre} x${item.cantidad} $${item.cantidad * item.precio}\n` 
     });
 
-    mensaje += `\nTotal a Pagar: $${sumaCarrito()}\n\n`;
+    mensaje += `\nTotal a Pagar: $${await sumaCarrito()}\n\n`;
 
-    if (totalCarrito() > 0) {
+    if (await totalCarrito() > 0) {
+        console.log("estoy aca");
+        
         Swal.fire({
             position: "top-center",
             icon: "success",
@@ -113,9 +233,51 @@ const finalizarCompra = () => {
             confirmButtonText: "Aceptar"
         }).then((result) => {
             if (result.isConfirmed) {
+                vaciarFormulario();
                 vaciarCarrito();
                 renderBotonCarrito();
+                location.href = "index.html";
             }
         });     
     }
+}
+
+const vaciarFormulario = () => {
+    document.getElementById("nombre").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("direccion").value = "";
+}
+
+const generarOrden = async () => {
+    const carrito = await cargarCarrito();
+    const nombre = document.getElementById("nombre").value;
+    const email = document.getElementById("email").value;
+    const telefono = document.getElementById("telefono").value;
+    const direccion = document.getElementById("direccion").value;
+
+    const datosCliente = {
+        nombre:nombre,
+        email:email,
+        telefono:telefono,
+        direccion:direccion
+    }
+
+    const fechaActual = new Date();
+    const fecha = `${fechaActual.getDate()}-${fechaActual.getMonth()+1}-${fechaActual.getFullYear()}`; //DD-MM-YYYY
+
+    const orden = {
+        datosCliente:datosCliente,
+        productos:carrito,
+        sumaTotal:await sumaCarrito(),
+        fecha:fecha
+    }
+
+    fetch("http://localhost:3000/ordenes", {
+        method: "POST",
+        body: JSON.stringify(orden),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+
+    detalleCompra(orden);
 }

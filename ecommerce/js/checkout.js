@@ -1,21 +1,17 @@
-const renderCarrito = async () => {
+const renderCheckout = async () => {
     const carrito = await cargarCarrito();
     let contenidoHTML = "";
 
     if (await totalCarrito() > 0) {
-        contenidoHTML = `<table class="table">
-        <tr>
-        <td colspan="6" class="text-end"><button class="btn btn-warning btn-sm" onclick="vaciarCarrito();">Vaciar Carrito [x]</button></td>
-        </tr>`;
+        contenidoHTML = `<table class="table">`;
 
         carrito.forEach(item => {
             contenidoHTML += `<tr>
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
             <td class="text-start align-middle">$${item.precio}</td>
-            <td class="text-start align-middle"><button class="btn btn-warning btn-sm" title="Decrementar" onclick="decrementarItem(${item.id});">-</button> X${item.cantidad} <button class="btn btn-warning btn-sm" title="Incrementar" onclick="incrementarItem(${item.id});">+</button></td>
+            <td class="text-start align-middle">X${item.cantidad}</td>
             <td class="text-start align-middle">$${item.cantidad * item.precio}</td>
-            <td class="text-end align-middle"><button class="btn btn-warning btn-sm" onclick="eliminarProducto(${item.id});"><i class="bi bi-trash"></i></button></td>
             </tr>`;
         });
 
@@ -23,7 +19,6 @@ const renderCarrito = async () => {
         <td>&nbsp;</td>
         <td colspan="3">Total a Pagar</td>
         <td>$${await sumaCarrito()}</td>
-        <td class="text-end"><a href='checkout.html' class="btn btn-warning btn-sm">Checkout</a></td>
         </tr>
         </table>`;
     } else {
@@ -33,6 +28,6 @@ const renderCarrito = async () => {
     document.getElementById("contenido").innerHTML = contenidoHTML;
 }
 
-renderCarrito();
+renderCheckout();
 renderBotonFavoritos();
 renderBotonCarrito();

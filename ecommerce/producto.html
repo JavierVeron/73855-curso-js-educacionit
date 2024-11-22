@@ -16,7 +16,7 @@
                     <img src="https://1000marcas.net/wp-content/uploads/2019/11/McDonalds-Logo-2003.jpg" alt="McDonald's logo" width="96" />
                 </a>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <ul class="nav justify-content-start">
                   <li class="nav-item">
                     <a class="nav-link text-dark" href="index.html">Productos</a>
@@ -35,12 +35,23 @@
                   </li>
                 </ul>
             </div>
-            <div class="col-md-1 text-end">
-                <a href="carrito.html">
-                    <button type="button" class="btn btn-warning position-relative">
-                        <i class="bi bi-cart"></i> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="totalCarrito"></span></span>
-                    </button>
-                </a>
+            <div class="col-md-4 text-end">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Big Mac" id="buscar">
+                <span class="input-group-text" id="btnBuscar">Buscar</span>
+              </div>              
+            </div>
+            <div class="col-md-2 text-end">
+              <a href="favoritos.html" class="text-decoration-none mx-2">
+                <button type="button" class="btn btn-warning position-relative">
+                    <i class="bi bi-heart"></i> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="totalFavoritos"></span></span>
+                </button>
+              </a>
+              <a href="carrito.html">
+                <button type="button" class="btn btn-warning position-relative">
+                    <i class="bi bi-cart"></i> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="totalCarrito"></span></span>
+                </button>
+              </a>
             </div>
         </div>
     </header>

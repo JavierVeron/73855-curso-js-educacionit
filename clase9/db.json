@@ -55,19 +55,22 @@
       "categoria": "postres"
     }
   ],
-  "usuarios": [],
-  "carrito": [
+  "usuarios": [
     {
-      "id": "5137",
-      "userId": 1732064299373,
-      "carrito": []
-    },
-    {
-      "id": "072e",
-      "userId": 1732312526967,
-      "carrito": []
+      "nombre": "Javier Verón",
+      "email": "javier.veron@gmail.com",
+      "clave": "123456",
+      "direccion": "Av. San Martin 1500",
+      "ciudad": "San Miguel",
+      "id": "f17e"
     }
   ],
-  "favoritos": [],
+  "carrito": [],
+  "favoritos": [
+    {
+      "id": "f17e",
+      "productos":[]
+    }
+  ],
   "ordenes": []
 }

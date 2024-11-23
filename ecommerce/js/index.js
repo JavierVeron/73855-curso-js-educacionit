@@ -20,9 +20,9 @@ const renderProductos = async () => {
     });
 
     document.getElementById("contenido").innerHTML = contenidoHTML;
-    generarIdUsuario();
 }
 
 renderProductos();
 renderBotonFavoritos();
 renderBotonCarrito();
+renderUserSection();

@@ -56,9 +56,37 @@
             </div>
         </div>
     </header>
-    <!-- Cotenido -->
+    <!-- Contenido -->
     <main class="container my-5">
-        <div id="contenido" class="row"></div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1>Actualiza tus Datos</h1>
+                <form>
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="text" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="clave" class="form-label">Contraseña</label>
+                      <input type="password" class="form-control" id="clave">
+                      <div class="text-secondary">Escriba la nueva Contraseña solo si desea modificarla</div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="direccion" class="form-label">Dirección</label>
+                      <input type="text" class="form-control" id="direccion" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="ciudad" class="form-label">Ciudad</label>
+                      <input type="text" class="form-control" id="ciudad" required>
+                    </div>
+                    <button type="button" id="btnRegistrarUsuario" class="btn btn-warning px-5" onclick="modificarPerfil()">Continuar</button>
+                </form>
+            </div>
+        </div>
     </main>
     <!-- Pie de Página -->
     <footer class="container my-5">
@@ -73,6 +101,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/usuario.js"></script>
     <script src="js/funciones.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/modificar_perfil.js"></script>
   </body>
 </html>

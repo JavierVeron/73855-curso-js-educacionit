@@ -1,17 +1,5 @@
-const obtenerUserId = () => {
+const getUserId = () => {
     return JSON.parse(localStorage.getItem("userId")) || null;
-}
-
-const generarIdUsuario = () => {
-    if (!obtenerUserId()) {
-        const userId = Date.now();
-        localStorage.setItem("userId", JSON.stringify(userId));
-        fetch("http://localhost:3000/carrito", {
-            method: "POST",
-            body: JSON.stringify({userId:userId, carrito:[]}),
-            headers: {"Content-type": "application/json; charset=UTF-8"}
-        })
-    }
 }
 
 const cargarProductos = async () => {
@@ -24,7 +12,7 @@ const cargarProductos = async () => {
 }
 
 const cargarCarrito = async () => {
-    const userId = obtenerUserId();
+    const userId = getUserId();
     const response = await fetch("http://localhost:3000/carrito/?userId=" + userId)
     const data = await response.json();
     
@@ -33,8 +21,8 @@ const cargarCarrito = async () => {
     })
 }
 
-const cargarFavoritos = async () => {
-    const response = await fetch("http://localhost:3000/favoritos")
+const cargarFavoritos = async (userId) => {
+    const response = await fetch("http://localhost:3000/favoritos/" + userId)
     const data = await response.json();
     
     return new Promise((resolve) => {
@@ -43,7 +31,7 @@ const cargarFavoritos = async () => {
 }
 
 const actualizarCarrito = async(carrito) => {
-    const userId = obtenerUserId();
+    const userId = getUserId();
     await fetch("http://localhost:3000/carrito/?userId=" + userId, {
         method: "PUT",
         body: JSON.stringify({productos:carrito}),
@@ -52,7 +40,7 @@ const actualizarCarrito = async(carrito) => {
 }
 
 const guardarCarrito = async(producto) => {
-    const userId = obtenerUserId();
+    const userId = getUserId();
     await fetch("http://localhost:3000/carrito", {
         method: "POST",
         body: JSON.stringify({userId:userId, producto:producto}),
@@ -60,19 +48,19 @@ const guardarCarrito = async(producto) => {
     })
 }
 
-const guardarFavorito = async(producto) => {
-    await fetch("http://localhost:3000/favoritos", {
-        method: "POST",
-        body: JSON.stringify(producto),
+const guardarFavorito = async(userId, favoritos) => {
+    await fetch("http://localhost:3000/favoritos/" + userId, {
+        method: "PUT",
+        body: JSON.stringify(favoritos),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
 }
 
-const eliminarFavorito = async(id) => {
+/* const eliminarFavorito = async(id) => {
     await fetch("http://localhost:3000/favoritos/" + id, {
         method: "DELETE"
     });
-}
+} */
 
 const estaEnElCarrito = async (id) => {
     const carrito = await cargarCarrito();
@@ -82,11 +70,11 @@ const estaEnElCarrito = async (id) => {
     })
 }
 
-const estaEnElFavorito = async (id) => {
-    const carrito = await cargarFavoritos();
+const estaEnElFavorito = async (userId, productId) => {
+    const favoritos = await cargarFavoritos(userId);
 
     return new Promise((resolve) => {
-        resolve(carrito.some(item => item.id == id));
+        resolve(favoritos.productos.some(item => item.id == productId));
     })
 }
 
@@ -133,13 +121,17 @@ const incrementarItem = async (id) => {
     await renderCarrito();
 }
 
-const toggleFavorito = async (id) => {        
-    if (await estaEnElFavorito(id)) {
-        await eliminarFavorito(id);
+const toggleFavorito = async (userId, productId) => {        
+    const favoritos = await cargarFavoritos(userId);
+
+    if (await estaEnElFavorito(userId, productId)) {
+        const nuevosFavoritos = favoritos.productos.filter(item => item.id != productId);
+        await guardarFavorito(userId, nuevosFavoritos);
     } else {
         const productos = await cargarProductos();
-        const producto = productos.find(item => item.id == id);
-        await guardarFavorito(producto);
+        const producto = productos.find(item => item.id == productId);
+        favoritos.productos.push(producto);
+        await guardarFavorito(userId, favoritos);
     }
 
     await renderBotonFavoritos();
@@ -154,10 +146,11 @@ const totalCarrito = async () => {
 }
 
 const totalFavoritos = async () => {
-    const favoritos = await cargarFavoritos();   
+    const userId = getUserId();
+    const favoritos = await cargarFavoritos(userId);    
     
     return new Promise((resolve) => {
-        resolve(favoritos.length);
+        resolve(favoritos.productos.length);
     })
 }
 
@@ -184,11 +177,15 @@ const vaciarCarrito = async () => {
 }
 
 const renderBotonCarrito = async () => {
-    document.getElementById("totalCarrito").innerHTML = await totalCarrito();
+    if (isLoggedIn()) {
+        document.getElementById("totalCarrito").innerHTML = await totalCarrito();
+    }
 }
 
 const renderBotonFavoritos = async () => {
-    document.getElementById("totalFavoritos").innerHTML = await totalFavoritos();
+    if (isLoggedIn()) {
+        document.getElementById("totalFavoritos").innerHTML = await totalFavoritos();
+    }
 }
 
 const eliminarProducto = async (id) => {
@@ -208,7 +205,7 @@ const mostrarMensaje = (mensaje, tipo = "ok") => {
         icon: tipo == "ok" ? "success" : "error",
         title: mensaje,
         showConfirmButton: false,
-        timer: 2000
+        timer: 3000
     });
 }
 
@@ -222,9 +219,7 @@ const detalleCompra = async (orden) => {
 
     mensaje += `\nTotal a Pagar: $${await sumaCarrito()}\n\n`;
 
-    if (await totalCarrito() > 0) {
-        console.log("estoy aca");
-        
+    if (await totalCarrito() > 0) {        
         Swal.fire({
             position: "top-center",
             icon: "success",
@@ -250,7 +245,8 @@ const vaciarFormulario = () => {
 }
 
 const generarOrden = async () => {
-    const carrito = await cargarCarrito();
+    const userId = getUserId();
+    const carrito = await cargarCarrito(userId);
     const nombre = document.getElementById("nombre").value;
     const email = document.getElementById("email").value;
     const telefono = document.getElementById("telefono").value;
@@ -280,4 +276,41 @@ const generarOrden = async () => {
     })
 
     detalleCompra(orden);
+}
+
+const renderUserSection = () => {
+    const userSection = document.getElementById("userSection");
+    let contenidoHTML = "";
+
+    if (isLoggedIn()) {
+        /* contenidoHTML = `<nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Modificar Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Compras</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </nav>`; */
+        contenidoHTML = `<a href="modificar_perfil.html" class="text-decoration-none mx-1">
+            <button type="button" class="btn btn-warning position-relative" title='Modificar Perfil'>
+                <i class="bi bi-person-circle"></i>
+            </button>
+        </a>
+        <button type="button" class="btn btn-warning position-relative" title='Cerrar Sesión' onclick="cerrarSesion();">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>`;
+    } else {
+        contenidoHTML = `<a href="ingresar.html" class="btn btn-warning px-5">Ingresar</a>`;
+    }
+
+    userSection.innerHTML = contenidoHTML;
 }

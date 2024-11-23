@@ -13,14 +13,14 @@ const renderProducto = async () => {
                 <h5>${producto.calorias} kcal</h5>
                 <p>$${producto.precio}</p>
                 <p>${producto.descripcion}</p>
-                <p><button class="btn btn-warning" onclick="agregarProducto(${producto.id});">Agregar (+)</button> <button class="btn btn-warning mx-2" onclick="toggleFavorito(${producto.id});">${await estaEnElFavorito(producto.id) ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>'}</button></p>
+                <p><button class="btn btn-warning" onclick="agregarProducto(${producto.id});">Agregar (+)</button> <button class="btn btn-warning mx-2" onclick="toggleFavorito('${getUserId()}', ${producto.id});">${await estaEnElFavorito(getUserId(), producto.id) ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>'}</button></p>
             </div>    
         </div>
     </div>`;
     document.getElementById("contenido").innerHTML = contenidoHTML;
-    generarIdUsuario();
 }
 
 renderProducto();
 renderBotonFavoritos();
 renderBotonCarrito();
+renderUserSection();

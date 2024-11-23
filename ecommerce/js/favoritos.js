@@ -10,7 +10,7 @@ const renderFavoritos = async () => {
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
             <td class="text-start align-middle">$${item.precio}</td>
-            <td class="text-end align-middle"><button class="btn btn-warning btn-sm" onclick="toggleFavorito(${item.id});" title='Eliminar'><i class="bi bi-heart-fill"></i></button></td>
+            <td class="text-end align-middle"><button class="btn btn-warning btn-sm" onclick="toggleFavorito(${getUserId()}, ${item.id});" title='Eliminar'><i class="bi bi-heart-fill"></i></button></td>
             </tr>`;
         });
 

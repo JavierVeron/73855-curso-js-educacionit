@@ -63,14 +63,157 @@
       "direccion": "Av. San Martin 1500",
       "ciudad": "San Miguel",
       "id": "f17e"
+    },
+    {
+      "id": "13b0",
+      "nombre": "Fabian Menares",
+      "email": "fabimenares@gmail.com",
+      "clave": "224466",
+      "direccion": "San Nicolás 600",
+      "ciudad": "Santiago de Chile"
     }
   ],
-  "carrito": [],
+  "carrito": [
+    {
+      "productos": [],
+      "id": "13b0"
+    },
+    {
+      "productos": [
+        {
+          "id": "4",
+          "nombre": "McNuggets 6 unidades",
+          "calorias": 238,
+          "descripcion": "Seis piezas del mejor pollo rebozado sólo para vos. Comelas como quieras: con salsas o solas; todas son igual de deliciosas!",
+          "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXp9cg0/200/200/original?country=ar",
+          "precio": 9000,
+          "categoria": "pollo",
+          "cantidad": 1
+        },
+        {
+          "id": "5",
+          "nombre": "Papas Grandes",
+          "calorias": 339,
+          "descripcion": "Calientes, crujientes y deliciosas, tus aliadas perfectas para cualquier comida. Disfrutá de nuestras papas mundialmente famosas, desde la primera hasta la última.",
+          "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXXQgnB/200/200/original?country=ar",
+          "precio": 5000,
+          "categoria": "papas",
+          "cantidad": 1
+        }
+      ],
+      "id": "f17e"
+    }
+  ],
   "favoritos": [
     {
       "id": "f17e",
-      "productos":[]
+      "productos": [
+        {
+          "id": "5",
+          "nombre": "Papas Grandes",
+          "calorias": 339,
+          "descripcion": "Calientes, crujientes y deliciosas, tus aliadas perfectas para cualquier comida. Disfrutá de nuestras papas mundialmente famosas, desde la primera hasta la última.",
+          "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXXQgnB/200/200/original?country=ar",
+          "precio": 5000,
+          "categoria": "papas"
+        }
+      ]
+    },
+    {
+      "productos": [
+        {
+          "id": "3",
+          "nombre": "McNífica",
+          "calorias": 513,
+          "descripcion": "En un mundo donde todos buscan lo nuevo todo el tiempo, la McNífica viene a rectificar lo bueno de ser clásico. Carne, queso cheddar, tomate, lechuga y cebolla, acompañados de kétchup, mostaza y mayonesa.",
+          "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXXaUUP/200/200/original?country=ar",
+          "precio": 13000,
+          "categoria": "hamburguesas"
+        },
+        {
+          "id": "4",
+          "nombre": "McNuggets 6 unidades",
+          "calorias": 238,
+          "descripcion": "Seis piezas del mejor pollo rebozado sólo para vos. Comelas como quieras: con salsas o solas; todas son igual de deliciosas!",
+          "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXp9cg0/200/200/original?country=ar",
+          "precio": 9000,
+          "categoria": "pollo"
+        }
+      ],
+      "id": "13b0"
     }
   ],
-  "ordenes": []
+  "ordenes": [
+    {
+      "ordenes": [
+        {
+          "datosCliente": {
+            "nombre": "Fabian Menares",
+            "email": "fabimenares@gmail.com",
+            "telefono": "",
+            "direccion": "San Nicolás 600",
+            "ciudad": "Santiago de Chile"
+          },
+          "productos": [
+            {
+              "id": "3",
+              "nombre": "McNífica",
+              "calorias": 513,
+              "descripcion": "En un mundo donde todos buscan lo nuevo todo el tiempo, la McNífica viene a rectificar lo bueno de ser clásico. Carne, queso cheddar, tomate, lechuga y cebolla, acompañados de kétchup, mostaza y mayonesa.",
+              "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXXaUUP/200/200/original?country=ar",
+              "precio": 13000,
+              "categoria": "hamburguesas",
+              "cantidad": 2
+            },
+            {
+              "id": "5",
+              "nombre": "Papas Grandes",
+              "calorias": 339,
+              "descripcion": "Calientes, crujientes y deliciosas, tus aliadas perfectas para cualquier comida. Disfrutá de nuestras papas mundialmente famosas, desde la primera hasta la última.",
+              "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXXQgnB/200/200/original?country=ar",
+              "precio": 5000,
+              "categoria": "papas",
+              "cantidad": 1
+            },
+            {
+              "id": "6",
+              "nombre": "McFlurry Oreo",
+              "calorias": 424,
+              "descripcion": "Un helado de vainilla que se banca compartir el protagonismo con trocitos de deliciosas galletitas Oreo y la salsa que elijas. Amalo hasta el final.",
+              "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX83hlT/200/200/original?country=ar",
+              "precio": 4000,
+              "categoria": "postres",
+              "cantidad": 1
+            }
+          ],
+          "sumaTotal": 35000,
+          "fecha": "26-11-2024"
+        },
+        {
+          "datosCliente": {
+            "nombre": "Fabian Menares",
+            "email": "fabimenares@gmail.com",
+            "telefono": "",
+            "direccion": "San Nicolás 600",
+            "ciudad": "Santiago de Chile"
+          },
+          "productos": [
+            {
+              "id": "6",
+              "nombre": "McFlurry Oreo",
+              "calorias": 424,
+              "descripcion": "Un helado de vainilla que se banca compartir el protagonismo con trocitos de deliciosas galletitas Oreo y la salsa que elijas. Amalo hasta el final.",
+              "imagen": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX83hlT/200/200/original?country=ar",
+              "precio": 4000,
+              "categoria": "postres",
+              "cantidad": 2
+            }
+          ],
+          "sumaTotal": 8000,
+          "fecha": "26-11-2024"
+        }
+      ],
+      "id": "13b0"
+    }
+  ]
 }

@@ -5,7 +5,7 @@ const renderFavoritos = async () => {
     if (await totalFavoritos() > 0) {
         contenidoHTML = `<table class="table">`;
 
-        favoritos.forEach(item => {
+        favoritos.productos.forEach(item => {
             contenidoHTML += `<tr>
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
@@ -25,3 +25,4 @@ const renderFavoritos = async () => {
 renderFavoritos();
 renderBotonFavoritos();
 renderBotonCarrito();
+renderUserSection();

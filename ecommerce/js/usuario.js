@@ -1,5 +1,5 @@
-const buscarUsuarioPorId = async (id) => {
-    const response = await fetch("http://localhost:3000/usuarios/" + id)
+const buscarUsuarioPorId = async (userId) => {
+    const response = await fetch("http://localhost:3000/usuarios/" + userId)
     const data = await response.json();
     
     return new Promise((resolve) => {        

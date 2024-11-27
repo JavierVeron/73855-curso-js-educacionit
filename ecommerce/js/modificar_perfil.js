@@ -1,12 +1,3 @@
-const renderCompletarFormModificarPerfil = async () => {
-    let id = getSessionId();
-    const usuario = await buscarUsuarioPorId(id);
-    document.getElementById("nombre").value = usuario.nombre;
-    document.getElementById("email").value = usuario.email;
-    document.getElementById("direccion").value = usuario.direccion;
-    document.getElementById("ciudad").value = usuario.ciudad;
-}
-
 const modificarPerfil = async () => {
     const userId = getUserId();
     const usuario = await buscarUsuarioPorId(userId);
@@ -32,7 +23,7 @@ const modificarPerfil = async () => {
     })
 }
 
-renderCompletarFormModificarPerfil();
+renderCompletarPerfil();
 renderBotonFavoritos();
 renderBotonCarrito();
 renderUserSection();

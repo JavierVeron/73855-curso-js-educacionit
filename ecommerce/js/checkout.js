@@ -5,7 +5,7 @@ const renderCheckout = async () => {
     if (await totalCarrito() > 0) {
         contenidoHTML = `<table class="table">`;
 
-        carrito.forEach(item => {
+        carrito.productos.forEach(item => {
             contenidoHTML += `<tr>
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
@@ -28,6 +28,8 @@ const renderCheckout = async () => {
     document.getElementById("contenido").innerHTML = contenidoHTML;
 }
 
+renderCompletarPerfil();
 renderCheckout();
 renderBotonFavoritos();
 renderBotonCarrito();
+renderUserSection();

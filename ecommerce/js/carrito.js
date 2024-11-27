@@ -8,7 +8,7 @@ const renderCarrito = async () => {
         <td colspan="6" class="text-end"><button class="btn btn-warning btn-sm" onclick="vaciarCarrito();">Vaciar Carrito [x]</button></td>
         </tr>`;
 
-        carrito.forEach(item => {
+        carrito.productos.forEach(item => {
             contenidoHTML += `<tr>
             <td><img src="${item.imagen}" alt="${item.nombre}" width="96"></td>
             <td class="text-start align-middle">${item.nombre}</td>
@@ -36,3 +36,4 @@ const renderCarrito = async () => {
 renderCarrito();
 renderBotonFavoritos();
 renderBotonCarrito();
+renderUserSection();
